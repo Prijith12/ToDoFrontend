@@ -1,0 +1,8 @@
+.toDo{
+    height: 80px;
+    width: 290px;
+    background-color: rgb(241 245 249);
+}
+.CompletionStatus{
+    color:#28a745;
+}
