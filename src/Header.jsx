@@ -39,7 +39,7 @@ function Header() {
 
   return (
     <div className='bg-gradient-to-br from-purple-300 to-indigo-600 flex justify-between items-end'>
-      <h1 className="text-center text-white text-xl font-bold py-8">PriTechSolutions TODO</h1>
+      <h1 className="text-center text-white text-xl font-bold py-8 ml-5">PriTechSolutions TODO</h1>
       <div className='mr-4 mb-4'>
         <AppBar position="static">
           <Toolbar>

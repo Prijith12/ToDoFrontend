@@ -2,6 +2,7 @@ import React from 'react'
 import axios from "axios"
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 
 function Signups() {
@@ -11,11 +12,13 @@ function Signups() {
     const [password,setPassword]=useState('');
     const[success,setSuccess]=useState(false);
     const [message,setMessage]=useState('');
-    const[alertStatus,setAlertStatus]=useState(false)
+    const[alertStatus,setAlertStatus]=useState(false);
+    let [loading,setLoading]=useState(false);
 
     const handleSignup=async()=>{
         try{
-            const result=await axios.post('http://localhost:4000/users/signUp',{
+            setLoading(true);
+            const result=await axios.post('https://todobackend-c4le.onrender.com/users/signUp',{
                 name:name,
                 email:email,
                 password:password
@@ -33,6 +36,8 @@ function Signups() {
             }
         }catch(err){
 console.log('Error sending'+err)
+        }finally{
+            setLoading(false);
         }
         
     }
@@ -44,8 +49,13 @@ console.log('Error sending'+err)
     return (
         <div>
             <div>
-                <div className=" flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-md w-full space-y-8">
+                <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                    {
+                        loading? <div className="flex justify-center items-center">
+                        <CircularProgress className="text-black" size={80} thickness={4} />
+                        <p className="text-black ml-4">Loading...</p>
+                      </div>:(
+                        <div className="max-w-md w-full space-y-8">
                         <div>
                             {alertStatus&& <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                                     <span className="block sm:inline">SignUp was Successfull</span>
@@ -88,6 +98,9 @@ console.log('Error sending'+err)
                             </div>
                         </form>
                     </div>
+                      )
+                    }
+                    
                 </div>
             </div>
         </div>

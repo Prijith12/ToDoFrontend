@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let [loading,setLoading]=useState(false);
   const navigate = useNavigate();
 
   const signIn = async () => {
     try {
-      const result = await axios.post('http://localhost:4000/users/login', {
+      setLoading(true);
+      const result = await axios.post('https://todobackend-c4le.onrender.com/users/login', {
         email,
         password
       });
@@ -22,14 +25,24 @@ function Login() {
         alert(result.data.message);
       }
     } catch (err) {
+      
       console.log('Error signing in:', err);
+    }finally{
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
+        {
+          loading?  <div className="flex justify-center items-center">
+          <CircularProgress className="text-black" size={80} thickness={4} />
+          <p className="text-black ml-4">Loading...</p>
+        </div>: (
+          <div>
+                <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Log in to your account</h2>
         </div>
         <form className="mt-8 space-y-6">
@@ -64,6 +77,10 @@ function Login() {
             Don't have an account? <a href="/signUp" className="font-medium text-indigo-600 hover:text-indigo-500">Create an account</a>
           </p>
         </div>
+          </div>
+        )
+        }
+    
       </div>
     </div>
   );
