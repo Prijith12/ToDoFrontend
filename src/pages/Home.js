@@ -4,8 +4,10 @@ import axios from 'axios';
 import axiosInstance from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-
+import '../pages/Home.css'
 function Home() {
   let [toDo,settoDo]=useState(null)
   let [toDos,settoDos]=useState([]);
@@ -120,13 +122,13 @@ function Home() {
       toDos.map((obj)=>{
         console.log(obj);
         return(
-          <div className='toDo mt-9 bg-gray-200 rounded-lg p-3'> <input type="checkbox"  name="" id="" className='h-6 w-6 mr-2 rounded' checked={obj.status} onChange={(e)=>{updateStatus(obj.id,obj.status)
+          <div className='toDo mt-9 bg-gray-200 rounded-lg p-4 custom-checkbox'> <input type="checkbox"  name="" id="" className='h-6 w-6 mr-2' checked={obj.status} onChange={(e)=>{updateStatus(obj.id,obj.status)
             
               }}
                />
-         <span className='font-bold'> {obj.value}</span> {obj.status && <span className='CompletionStatus text-green-600'>Completed</span>} <button className='ml-4 text-red-500' onClick={()=>{
+         <span className='font-bold text-lg'> {obj.value}</span> {obj.status && <span className='CompletionStatus text-green-600 text-sm'>  completed<CheckCircleIcon/></span>} <button className='ml-4 delete-button' onClick={()=>{
           removeTask(obj.id);
-         }}>RemoveTask</button></div>
+         }}><DeleteIcon/></button></div>
 
         )
       })

@@ -25,7 +25,6 @@ function Login() {
         alert(result.data.message);
       }
     } catch (err) {
-      
       console.log('Error signing in:', err);
     }finally{
       setLoading(false);
