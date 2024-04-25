@@ -5,13 +5,24 @@ import { AppBar, Toolbar, Button, Menu, MenuItem } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import {jwtDecode} from 'jwt-decode';
 import axios from 'axios';
+import axiosInstance from './axiosConfig';
 
 function Header() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [userName, setUserName] = useState("");
 
-  useEffect(() => {
+  useEffect(async() => {
+    try{
+      setLoggedIn(false);
+      const result=await axiosInstance.get('https://todobackend-c4le.onrender.com/users/viewToDo');
+    if(result.data.message=='notAuth'){
+      localStorage.removeItem('token');
+    }
+    }catch(err){
+      console.log(err);
+    }
+    
     const token = localStorage.getItem('token');
     if (token) {
       const user = jwtDecode(token);
@@ -38,7 +49,7 @@ function Header() {
   };
 
   return (
-    <div className='bg-gradient-to-br from-purple-300 to-indigo-600 flex justify-between items-end'>
+    <div className='bg-gradient-to-br from-purple-300 to-indigo-600 flex justify-between items-end HeaderN'>
       <h1 className="text-center text-white text-xl font-bold py-8 ml-5">PriTechSolutions TODO</h1>
       <div className='mr-4 mb-4'>
         <AppBar position="static">
